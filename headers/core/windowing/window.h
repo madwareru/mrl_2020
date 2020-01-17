@@ -5,12 +5,13 @@
 #include <vector>
 
 namespace core::render {
-    struct SOASpriteRGB;
+   struct SOASpriteRGB;
 }
+
+struct GLFWwindow;
 
 namespace core::windowing {
 
-struct GLFWwindow;
 typedef void (* GLFWkeyfun)(GLFWwindow*,int,int,int,int);
 typedef void (* GLFWcursorposfun)(GLFWwindow*,double,double);
 typedef void (* GLFWmousebuttonfun)(GLFWwindow*,int,int,int);
