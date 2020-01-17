@@ -1,0 +1,12 @@
+[submodule "modules/glew-cmake"]
+	path = modules/glew-cmake
+	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "modules/glfw"]
+	path = modules/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "modules/ecs.hpp"]
+	path = modules/ecs.hpp
+	url = https://github.com/BlackMATov/ecs.hpp.git
+[submodule "modules/enum.hpp"]
+	path = modules/enum.hpp
+	url = https://github.com/BlackMATov/enum.hpp.git
