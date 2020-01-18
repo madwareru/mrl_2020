@@ -1,5 +1,4 @@
-#ifndef DEFER_ACTION_H
-#define DEFER_ACTION_H
+#pragma once
 
 #define UTIL_NOEXCEPT_RETURN(...) \
     noexcept(noexcept(__VA_ARGS__)) { return __VA_ARGS__; }
@@ -53,5 +52,3 @@ namespace playground_hpp::defer
 #define DEFER_CLEANUP(x)\
     auto x##_ptr = x;   \
     DEFER([&](){ if(x##_ptr != nullptr) { delete x##_ptr; } })
-
-#endif // DEFER_ACTION_H

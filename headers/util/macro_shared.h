@@ -1,5 +1,4 @@
-#ifndef MACRO_SHARED_H
-#define MACRO_SHARED_H
+#pragma once
 
 #include <iostream>
 
@@ -34,5 +33,3 @@
 #else
     #define LOG_ASSERT(cond)
 #endif
-
-#endif // MACRO_SHARED_H

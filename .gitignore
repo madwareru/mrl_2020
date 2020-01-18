@@ -2,3 +2,4 @@ build
 headers/core/.DS_Store
 headers/.DS_Store
 .DS_Store
+.vscode/settings.json

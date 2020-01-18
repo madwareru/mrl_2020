@@ -1,5 +1,4 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#pragma once
 
 #include <variant>
 #include <vector>
@@ -75,5 +74,3 @@ bool start_main_loop(
         >& eventCallbacks
     );
 }
-
-#endif // WINDOW_H

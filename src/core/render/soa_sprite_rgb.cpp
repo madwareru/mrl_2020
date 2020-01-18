@@ -1,4 +1,5 @@
 #include <core/render/soa_sprite_rgb.h>
+#include <core/render/standart_blit_policy.h>
 #include <emmintrin.h>
 #include <iostream>
 
@@ -31,10 +32,6 @@ namespace core::render {
         delete [] b_buffer_raw_;
         delete [] g_buffer_raw_;
         delete [] r_buffer_raw_;
-    }
-
-    void SOASpriteRGB::blit_on_sprite(SOASpriteRGB& other, std::int16_t dx, std::int16_t dy, std::uint16_t sx, std::uint16_t sy, std::uint16_t w, std::uint16_t h) {
-        
     }
 
     void SOASpriteRGB::blit_on_opengl_buffer(std::uint8_t* dest_cbuf, std::uint16_t dw, std::uint16_t dh){
