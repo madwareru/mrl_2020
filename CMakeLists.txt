@@ -12,10 +12,6 @@ file(GLOB_RECURSE THIRD_PARTY_SOURCES
     "third_party/*.cpp"
     "third_party/*.h")
 
-set (INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/headers
-)
-
 set(glew-cmake_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(glew-cmake_BUILD_MULTI_CONTEXT OFF CACHE BOOL "" FORCE)
 set(glew-cmake_BUILD_STATIC ON CACHE BOOL "" FORCE)
@@ -32,6 +28,7 @@ add_executable(${PROJECT_NAME}
     ${THIRD_PARTY_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC
     headers
+    third_party
     modules/ecs.hpp/headers)
 
 target_link_libraries(${PROJECT_NAME}

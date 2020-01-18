@@ -1,16 +1,22 @@
 #include <cstdint>
 #include <cstddef>
 #include <variant>
+#include <memory>
 
 #include <util/defer_action.h>
 #include <util/macro_shared.h>
 
 #include <core/render/soa_sprite_rgb.h>
+#include <core/render/standart_blit_policy.h>
 #include <core/windowing/window.h>
+#include <core/loaders/png_loader.h>
 #include <GLFW/glfw3.h>
 
 namespace {
+    std::shared_ptr<core::render::SOASpriteRGB> grass_sprite;
+
     void global_init() {
+        grass_sprite = core::loaders::load_sprite_from_png_24("grassCenter.png");
         
     }
 
@@ -19,7 +25,11 @@ namespace {
     }
 
     void global_render(core::render::SOASpriteRGB& back_buffer) {
-        
+        for(std::int32_t j = 0; j < 12; ++j) {
+            for(std::int32_t i = 0; i < 19; ++i) {
+                core::render::blit_sprite(*grass_sprite, back_buffer, i * 70, j * 70);
+            }
+        }
     }
 
     void key_callback(GLFWwindow* glfw_window, int par0, int par1, int par2, int par3) {
@@ -38,10 +48,10 @@ namespace {
 int main(int argc, char** argv) {
     core::windowing::WindowCreationParams window_params {
         "mrl_2020", // title
-        640,   // width
-        480,  // height
-        false,      // fullscreen
-        0x07, 0x02, 0x13      // clear color
+        1280, // width
+        800, // height
+        false, // fullscreen
+        0x07, 0x02, 0x13 // clear color
     };
 
     core::windowing::LifetimeProcHolder lifetime_procs {

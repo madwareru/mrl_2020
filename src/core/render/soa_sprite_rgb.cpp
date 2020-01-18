@@ -4,7 +4,7 @@
 #include <iostream>
 
 namespace core::render {
-    SOASpriteRGB::SOASpriteRGB(std::uint16_t w, std::uint16_t h) {
+    SOASpriteRGB::SOASpriteRGB(std::uint16_t w, std::uint16_t h) : width_{w}, height_{h} {
         r_buffer_raw_ = new std::uint8_t[w * h + 8];
         g_buffer_raw_ = new std::uint8_t[w * h + 8];
         b_buffer_raw_ = new std::uint8_t[w * h + 8];
