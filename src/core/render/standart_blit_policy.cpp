@@ -12,6 +12,9 @@ namespace core::render {
         src.lock([&](auto sw, auto sh, auto src_r_buffer, auto src_g_buffer, auto src_b_buffer){
             dest.lock([&](auto dw, auto dh, auto dest_r_buffer, auto dest_g_buffer, auto dest_b_buffer){
                 std::uint16_t span_width = dw - dx;
+                if(span_width > sw - sx) {
+                    span_width = sw - sx;
+                }
                 if(span_width > w) {
                     span_width = w;
                 }
@@ -20,8 +23,8 @@ namespace core::render {
                 span_width %= 16;
 
                 std::uint16_t span_count = dh - dy;
-                if(span_count > sh) {
-                    span_count = sh;
+                if(span_count > sh - sy) {
+                    span_count = sh - sy;
                 }
                 if(span_count > h) {
                     span_count = h;
