@@ -71,6 +71,7 @@ int main(int argc, char** argv) {
     event_callbacks.emplace_back(core::windowing::MouseButtonCallbackHolder{mouse_button_callback});
 
     if(!glfwInit()) {
+        LOG_ERROR("Fatal: failed to init glfw");
         return 1;
     }
 
@@ -81,6 +82,7 @@ int main(int argc, char** argv) {
     auto window = INIT_WINDOW(window_params);
 
     if(!window) {
+        LOG_ERROR("Fatal: failed to create a window");
         return 1;
     }
 
@@ -91,7 +93,10 @@ int main(int argc, char** argv) {
         window_params,
         lifetime_procs,
         event_callbacks
-    )) return 1;
+    )) {
+        LOG_ERROR("Fatal: failed to start main loop");
+        return 1;
+    }
 
     return 0;
 }
