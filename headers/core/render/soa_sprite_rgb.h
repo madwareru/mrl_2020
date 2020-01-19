@@ -2,6 +2,7 @@
 
 #include <cinttypes>
 #include <cstddef>
+#include <util/macro_shared.h>
 
 namespace core::render {
     struct StandartBlit;
@@ -47,11 +48,15 @@ namespace core::render {
     ) {
         if(dx < 0) {
             if(static_cast<std::uint16_t>(-dx) >= w) return;
-            sx -= dx; w += dx; dx = 0;
+            sx -= dx;
+            w += dx;
+            dx = 0;
         }
         if(dy < 0) {
             if(static_cast<std::uint16_t>(-dy) >= h) return;
-            sy -= dy; h += dy; dy = 0;
+            sy -= dy;
+            h += dy;
+            dy = 0;
         }
         if(static_cast<std::uint16_t>(dx) >= dest.width() || static_cast<std::uint16_t>(dy) >= dest.height()) {
             return;

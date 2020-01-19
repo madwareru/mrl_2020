@@ -23,10 +23,13 @@ namespace core::render {
                 if(span_count > sh) {
                     span_count = sh;
                 }
+                if(span_count > h) {
+                    span_count = h;
+                }
 
-                std::uint8_t* b_data_l = &src_b_buffer[0];
-                std::uint8_t* g_data_l = &src_g_buffer[0];
-                std::uint8_t* r_data_l = &src_r_buffer[0];
+                std::uint8_t* b_data_l = &src_b_buffer[sx + sw * sy];
+                std::uint8_t* g_data_l = &src_g_buffer[sx + sw * sy];
+                std::uint8_t* r_data_l = &src_r_buffer[sx + sw * sy];
 
                 std::uint8_t* db_data_l = &dest_b_buffer[dx + dw * dy];
                 std::uint8_t* dg_data_l = &dest_g_buffer[dx + dw * dy];
