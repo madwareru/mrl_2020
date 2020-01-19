@@ -43,6 +43,10 @@ namespace {
     void mouse_button_callback(GLFWwindow* glfw_window, int par0, int par1, int par2) {
         
     }
+
+    void glfw_error_hooker(int code, const char* description) {
+        LOG_ERROR("GLFW_ERROR: [" << code << "]: " << description);
+    }
 }
 
 int main(int argc, char** argv) {
@@ -74,6 +78,7 @@ int main(int argc, char** argv) {
         LOG_ERROR("Fatal: failed to init glfw");
         return 1;
     }
+    glfwSetErrorCallback(glfw_error_hooker);
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
