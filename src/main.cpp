@@ -48,8 +48,8 @@ namespace {
 int main(int argc, char** argv) {
     core::windowing::WindowCreationParams window_params {
         "mrl_2020", // title
-        1280, // width
-        800, // height
+        640, // width
+        480, // height
         false, // fullscreen
         0x07, 0x02, 0x13 // clear color
     };
