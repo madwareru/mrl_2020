@@ -16,7 +16,7 @@ struct AlphaBlendPolicy {
         std::uint16_t sx, std::uint16_t sy, 
         std::uint16_t w, std::uint16_t h);
 
-    void blit(
+    static void blit(
         SOASpriteRGBA& src, 
         SOASpriteRGB& dest,
         std::uint16_t dx, std::uint16_t dy, 

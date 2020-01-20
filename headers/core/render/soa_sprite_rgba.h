@@ -2,6 +2,7 @@
 
 #include <cinttypes>
 #include <cstddef>
+#include <core/render/soa_sprite_rgb.h>
 
 namespace core::render {
     struct StandartBlit;

@@ -37,4 +37,12 @@ namespace core::render {
         delete [] g_buffer_raw_;
         delete [] r_buffer_raw_;
     }
+
+    std::uint16_t SOASpriteRGBA::width() const {
+        return width_;
+    }
+
+    std::uint16_t SOASpriteRGBA::height() const {
+        return height_;
+    }
 }

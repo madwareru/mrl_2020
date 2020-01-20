@@ -4,6 +4,7 @@
 
 #include <core/loaders/png_loader.h>
 #include <core/render/soa_sprite_rgb.h>
+#include <core/render/soa_sprite_rgba.h>
 
 #include <util/defer_action.h>
 #include <util/macro_shared.h>
@@ -80,6 +81,40 @@ namespace core::loaders {
                     *r_buf++= *p++;
                     *g_buf++= *p++;
                     *b_buf++= *p++;
+                }
+            }
+        });
+        return result;
+    }
+
+    std::shared_ptr<core::render::SOASpriteRGBA> load_sprite_from_png_32(const char* filename) {
+        std::uint8_t* image_bytes = nullptr;
+        std::uint32_t lodepng_w, lodepng_h;
+
+        const auto lodepng_err = lodepng_decode32_file(&image_bytes, &lodepng_w, &lodepng_h, filename);
+        LOG("Loaded image with w = " << static_cast<std::int32_t>(lodepng_w) << ", h = " << static_cast<std::int32_t>(lodepng_h));
+
+        DEFER([&image_bytes]()
+        {
+            if (image_bytes != nullptr) {
+                free(reinterpret_cast<void*>(image_bytes));
+            }
+        })
+
+        if(lodepng_err != 0) {
+            LOG_ERROR("error " << lodepng_err << ": " << lodepng_error_text(lodepng_err));
+            return std::make_shared<core::render::SOASpriteRGBA>(1,1);
+        }
+
+        auto result = std::make_shared<core::render::SOASpriteRGBA>(lodepng_w, lodepng_h);
+        result->lock([image_bytes](auto dw, auto dh, auto r_buf, auto g_buf, auto b_buf, auto a_buf){
+            std::uint8_t* p = image_bytes;
+            for(std::size_t j = 0; j < dh; ++j){
+                for(std::size_t i = 0; i < dw; ++i){
+                    *r_buf++= *p++;
+                    *g_buf++= *p++;
+                    *b_buf++= *p++;
+                    *a_buf++= *p++;
                 }
             }
         });

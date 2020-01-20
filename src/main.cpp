@@ -7,19 +7,23 @@
 #include <util/macro_shared.h>
 
 #include <core/render/soa_sprite_rgb.h>
+#include <core/render/soa_sprite_rgba.h>
 #include <core/render/standart_blit_policy.h>
+#include <core/render/alpha_blend_policy.h>
 #include <core/windowing/window.h>
 #include <core/loaders/png_loader.h>
 #include <GLFW/glfw3.h>
 
 namespace {
     std::shared_ptr<core::render::SOASpriteRGB> grass_sprite;
+    std::shared_ptr<core::render::SOASpriteRGBA> ship_sprite;
     std::int16_t x_offset;
     std::int16_t y_offset;
     double acc;
 
     void global_init() {
         grass_sprite = core::loaders::load_sprite_from_png_24("grassCenter.png");
+        ship_sprite = core::loaders::load_sprite_from_png_32("playerShip1_green.png");
         x_offset = 0;
         y_offset = 0;
         acc = 0.0;
@@ -46,6 +50,7 @@ namespace {
                 core::render::blit_sprite(*grass_sprite, back_buffer, i * 70 + x_offset, j * 70 + y_offset);
             }
         }
+        core::render::blit_sprite(*ship_sprite, back_buffer, 320, 320);
     }
 
     void key_callback(GLFWwindow* glfw_window, int par0, int par1, int par2, int par3) {

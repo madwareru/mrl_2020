@@ -123,6 +123,8 @@ namespace core::render {
                 std::uint8_t* dg_data_l = &dest_g_buffer[dst_stride_start];
                 std::uint8_t* dr_data_l = &dest_r_buffer[dst_stride_start];
 
+                auto m_z = _mm_set1_epi32(0);
+
                 for(std::uint16_t j = span_count; j; --j) {
                     std::uint8_t* a_data = a_data_l;
                     std::uint8_t* b_data = b_data_l;
