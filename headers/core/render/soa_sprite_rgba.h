@@ -5,7 +5,8 @@
 
 namespace core::render {
     struct StandartBlit;
-    struct SemitransparentBlit;
+    struct AlphaBlendPolicy;
+
     struct SOASpriteRGB;
 
     struct SOASpriteRGBA {
@@ -38,7 +39,7 @@ namespace core::render {
         std::uint8_t* a_buffer_;
     };
 
-    template<typename BlitPolicy = StandartBlit>
+    template<typename BlitPolicy = AlphaBlendPolicy>
     void blit_sprite(
         SOASpriteRGBA& src,
         SOASpriteRGB& dest, 
@@ -64,7 +65,7 @@ namespace core::render {
         BlitPolicy::blit(src, dest, static_cast<std::uint16_t>(dx), static_cast<std::uint16_t>(dy), sx, sy, w, h);
     }
 
-    template<typename BlitPolicy = StandartBlit>
+    template<typename BlitPolicy = AlphaBlendPolicy>
     inline void blit_sprite(SOASpriteRGBA& src,SOASpriteRGB& dest, std::int16_t x, std::int16_t y) {
         blit_sprite<BlitPolicy>(src, dest, x, y, 0, 0, src.width(), src.height());
     }

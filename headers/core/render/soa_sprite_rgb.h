@@ -5,7 +5,6 @@
 
 namespace core::render {
     struct StandartBlit;
-    struct SemitransparentBlit;
 
     struct SOASpriteRGB {
         SOASpriteRGB(std::uint16_t w, std::uint16_t h);
