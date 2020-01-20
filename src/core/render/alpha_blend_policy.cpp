@@ -221,9 +221,13 @@ namespace core::render {
                     for(std::uint16_t i = span_width; i; --i) {
                         auto alpha = *a_data++;
 
-                        *db_data = (*db_data * (255 - alpha) + *b_data++ * alpha) / 256;
-                        *dg_data = (*dg_data * (255 - alpha) + *g_data++ * alpha) / 256;
-                        *dr_data = (*dr_data * (255 - alpha) + *r_data++ * alpha) / 256;
+                        const auto dst_b = *db_data;
+                        const auto dst_g = *dg_data;
+                        const auto dst_r = *dr_data;
+
+                        *db_data++ = (dst_b * (255 - alpha) + *b_data++ * alpha) / 256;
+                        *dg_data++ = (dst_g * (255 - alpha) + *g_data++ * alpha) / 256;
+                        *dr_data++ = (dst_r * (255 - alpha) + *r_data++ * alpha) / 256;
                     }
 
                     a_data_l += sw;
