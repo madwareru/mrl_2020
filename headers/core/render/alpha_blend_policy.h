@@ -8,7 +8,7 @@ namespace core::render {
 struct SOASpriteRGB;
 struct SOASpriteRGBA;
 
-struct StandartBlit {
+struct AlphaBlendPolicy {
     static void blit(
         SOASpriteRGB& src, 
         SOASpriteRGB& dest,

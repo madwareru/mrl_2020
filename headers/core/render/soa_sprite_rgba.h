@@ -6,20 +6,19 @@
 namespace core::render {
     struct StandartBlit;
     struct SemitransparentBlit;
+    struct SOASpriteRGB;
 
-    struct SOASpriteRGB {
-        SOASpriteRGB(std::uint16_t w, std::uint16_t h);
-        SOASpriteRGB(const SOASpriteRGB& other) = delete;
-        SOASpriteRGB& operator=(const SOASpriteRGB&) = delete;
-        SOASpriteRGB(SOASpriteRGB&& other) = delete;
-        SOASpriteRGB& operator=(SOASpriteRGB&&) = delete;
-        ~SOASpriteRGB();
+    struct SOASpriteRGBA {
+        SOASpriteRGBA(std::uint16_t w, std::uint16_t h);
+        SOASpriteRGBA(const SOASpriteRGBA& other) = delete;
+        SOASpriteRGBA& operator=(const SOASpriteRGBA&) = delete;
+        SOASpriteRGBA(SOASpriteRGBA&& other) = delete;
+        SOASpriteRGBA& operator=(SOASpriteRGBA&&) = delete;
+        ~SOASpriteRGBA();
         
-        void blit_on_opengl_buffer(std::uint8_t* buf, std::uint16_t buf_width, std::uint16_t buf_height);
-
         template<typename FF>
         void lock(FF&& predicate) {
-            predicate(width_, height_, r_buffer_, g_buffer_, b_buffer_);
+            predicate(width_, height_, r_buffer_, g_buffer_, b_buffer_, a_buffer_);
         }
 
         std::uint16_t width() const;
@@ -31,15 +30,17 @@ namespace core::render {
         std::uint8_t* r_buffer_raw_;
         std::uint8_t* g_buffer_raw_;
         std::uint8_t* b_buffer_raw_;
+        std::uint8_t* a_buffer_raw_;
 
         std::uint8_t* r_buffer_;
         std::uint8_t* g_buffer_;
         std::uint8_t* b_buffer_;
+        std::uint8_t* a_buffer_;
     };
 
     template<typename BlitPolicy = StandartBlit>
     void blit_sprite(
-        SOASpriteRGB& src,
+        SOASpriteRGBA& src,
         SOASpriteRGB& dest, 
         std::int16_t dx, std::int16_t dy, 
         std::uint16_t sx, std::uint16_t sy, 
@@ -64,7 +65,7 @@ namespace core::render {
     }
 
     template<typename BlitPolicy = StandartBlit>
-    inline void blit_sprite(SOASpriteRGB& src,SOASpriteRGB& dest, std::int16_t x, std::int16_t y) {
+    inline void blit_sprite(SOASpriteRGBA& src,SOASpriteRGB& dest, std::int16_t x, std::int16_t y) {
         blit_sprite<BlitPolicy>(src, dest, x, y, 0, 0, src.width(), src.height());
     }
 }

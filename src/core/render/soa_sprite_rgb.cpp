@@ -1,7 +1,5 @@
 #include <core/render/soa_sprite_rgb.h>
-#include <core/render/standart_blit_policy.h>
 #include <emmintrin.h>
-#include <iostream>
 
 namespace core::render {
     SOASpriteRGB::SOASpriteRGB(std::uint16_t w, std::uint16_t h) : width_{w}, height_{h} {
