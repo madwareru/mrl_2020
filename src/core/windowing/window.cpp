@@ -175,8 +175,8 @@ namespace core::windowing {
 
         char title_buf[255];
 
-        auto fbw = window_params.w_width;
-        auto fbh = window_params.w_height;
+        auto fbw = window_params.framebuffer_size.width;
+        auto fbh = window_params.framebuffer_size.height;
 
         GLuint PBO;
         glGenBuffers(1, &PBO);
@@ -211,10 +211,10 @@ namespace core::windowing {
 
         glfwSetWindowSizeLimits(
             glfw_window,
-            window_params.w_width,
-            window_params.w_height,
-            window_params.w_width,
-            window_params.w_height
+            window_params.window_size.width,
+            window_params.window_size.height,
+            window_params.window_size.width,
+            window_params.window_size.height
         );
 
         for(auto callback : eventCallbacks) {
@@ -239,7 +239,7 @@ namespace core::windowing {
         double last_frame_gtime = glfwGetTime();
         std::int32_t fps = 0;
 
-        core::render::SOASpriteRGB background_sprite{window_params.w_width, window_params.w_height};
+        core::render::SOASpriteRGB background_sprite{window_params.framebuffer_size.width, window_params.framebuffer_size.height};
 
         (*init)();
 

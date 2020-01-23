@@ -45,12 +45,12 @@ namespace {
 
             }
         });
-        for(std::int32_t j = 0; j < 12; ++j) {
-            for(std::int32_t i = 0; i < 19; ++i) {
+        for(std::int32_t j = 0; j < 3; ++j) {
+            for(std::int32_t i = 0; i < 5; ++i) {
                 core::render::blit_sprite(*grass_sprite, back_buffer, i * 70 + x_offset, j * 70 + y_offset);
             }
         }
-        core::render::blit_sprite(*ship_sprite, back_buffer, 320, 320);
+        core::render::blit_sprite(*ship_sprite, back_buffer, 80, 80);
     }
 
     void key_callback(GLFWwindow* glfw_window, int par0, int par1, int par2, int par3) {
@@ -71,12 +71,14 @@ namespace {
 }
 
 int main(int argc, char** argv) {
+    core::windowing::WindowSize win_size {1280, 800};
+    core::windowing::FramebufferSize framebuffer_size {320, 200};
+
     core::windowing::WindowCreationParams window_params {
-        "mrl_2020", // title
-        1280, // width
-        800, // height
-        false, // fullscreen
-        0x07, 0x02, 0x13 // clear color
+        "mrl_2020",
+        win_size,
+        framebuffer_size,
+        core::windowing::sreen_mode::windowed
     };
 
     core::windowing::LifetimeProcHolder lifetime_procs {

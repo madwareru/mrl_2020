@@ -2,6 +2,7 @@
 
 #include <variant>
 #include <vector>
+#include <cinttypes>
 
 namespace core::render {
    struct SOASpriteRGB;
@@ -19,15 +20,23 @@ typedef void (*render_proc)(core::render::SOASpriteRGB& back_buffer);
 typedef void (*update_proc)(double delta_time);
 typedef void (*init_proc)(void);
 
+struct WindowSize {
+    std::uint16_t width;
+    std::uint16_t height;
+};
+
+struct FramebufferSize {
+    std::uint16_t width;
+    std::uint16_t height;
+};
+
+enum class sreen_mode : bool {fullscreen = true, windowed = false};
+
 struct WindowCreationParams {
     const char* window_name;
-    uint16_t w_width;
-    uint16_t w_height;
-    bool fullscreen;
-
-    uint8_t clear_color_r;
-    uint8_t clear_color_g;
-    uint8_t clear_color_b;
+    WindowSize window_size;
+    FramebufferSize framebuffer_size;
+    sreen_mode mode;
 };
 
 struct LifetimeProcHolder {
@@ -51,15 +60,15 @@ struct MouseButtonCallbackHolder{
     GLFWmousebuttonfun fun;
 };
 
-#define INIT_WINDOW(window_params)    \
-    glfwCreateWindow(                 \
-        window_params.w_width,        \
-        window_params.w_height,       \
-        window_params.window_name,    \
-        window_params.fullscreen      \
-            ? glfwGetPrimaryMonitor() \
-            : nullptr,                \
-        nullptr                       \
+#define INIT_WINDOW(window_params)                  \
+    glfwCreateWindow(                               \
+        window_params.window_size.width,            \
+        window_params.window_size.height,           \
+        window_params.window_name,                  \
+        static_cast<bool>(window_params.mode) \
+            ? glfwGetPrimaryMonitor()               \
+            : nullptr,                              \
+        nullptr                                     \
     )
 
 bool start_main_loop(
