@@ -2,7 +2,7 @@
 
 #include <variant>
 #include <vector>
-#include <cinttypes>
+#include <core/types.h>
 
 namespace core::render {
    struct SOASpriteRGB;
@@ -18,16 +18,16 @@ typedef void (* GLFWmousebuttonfun)(GLFWwindow*,int,int,int);
 
 typedef void (*render_proc)(core::render::SOASpriteRGB& back_buffer);
 typedef void (*update_proc)(double delta_time);
-typedef void (*init_proc)(void);
+typedef bool (*init_proc)(void);
 
 struct WindowSize {
-    std::uint16_t width;
-    std::uint16_t height;
+    core::types::u16 width;
+    core::types::u16 height;
 };
 
 struct FramebufferSize {
-    std::uint16_t width;
-    std::uint16_t height;
+    core::types::u16 width;
+    core::types::u16 height;
 };
 
 enum class sreen_mode : bool {fullscreen = true, windowed = false};

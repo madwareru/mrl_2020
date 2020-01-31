@@ -2,26 +2,26 @@
 #include <emmintrin.h>
 
 namespace core::render {
-    SOASpriteRGB::SOASpriteRGB(std::uint16_t w, std::uint16_t h) : width_{w}, height_{h} {
-        r_buffer_raw_ = new std::uint8_t[w * h + 8];
-        g_buffer_raw_ = new std::uint8_t[w * h + 8];
-        b_buffer_raw_ = new std::uint8_t[w * h + 8];
-        for(std::size_t i = 0; i < w * h + 8; ++i)
+    SOASpriteRGB::SOASpriteRGB(core::types::u16 w, core::types::u16 h) : width_{w}, height_{h} {
+        r_buffer_raw_ = new core::types::u8[w * h + 8];
+        g_buffer_raw_ = new core::types::u8[w * h + 8];
+        b_buffer_raw_ = new core::types::u8[w * h + 8];
+        for(core::types::ptr_size i = 0; i < w * h + 8; ++i)
          {
              r_buffer_raw_[i] = 0;
              g_buffer_raw_[i] = 0;
              b_buffer_raw_[i] = 0;
          }
 
-        r_buffer_ = (reinterpret_cast<std::size_t>(&r_buffer_raw_[0]) % 16 == 0)
+        r_buffer_ = (reinterpret_cast<core::types::ptr_size>(&r_buffer_raw_[0]) % 16 == 0)
             ? &r_buffer_raw_[0]
             : &r_buffer_raw_[8];
 
-        g_buffer_ = (reinterpret_cast<std::size_t>(&g_buffer_raw_[0]) % 16 == 0)
+        g_buffer_ = (reinterpret_cast<core::types::ptr_size>(&g_buffer_raw_[0]) % 16 == 0)
             ? &g_buffer_raw_[0]
             : &g_buffer_raw_[8];
 
-        b_buffer_ = (reinterpret_cast<std::size_t>(&b_buffer_raw_[0]) % 16 == 0)
+        b_buffer_ = (reinterpret_cast<core::types::ptr_size>(&b_buffer_raw_[0]) % 16 == 0)
             ? &b_buffer_raw_[0]
             : &b_buffer_raw_[8];
     }
@@ -32,15 +32,15 @@ namespace core::render {
         delete [] r_buffer_raw_;
     }
 
-    void SOASpriteRGB::blit_on_opengl_buffer(std::uint8_t* dest_cbuf, std::uint16_t dw, std::uint16_t dh){
-        std::uint8_t* b_data = &b_buffer_[0];
-        std::uint8_t* g_data = &g_buffer_[0];
-        std::uint8_t* r_data = &r_buffer_[0];
-        std::uint8_t* d_data = &dest_cbuf[0];
+    void SOASpriteRGB::blit_on_opengl_buffer(core::types::u8* dest_cbuf, core::types::u16 dw, core::types::u16 dh){
+        core::types::u8* b_data = &b_buffer_[0];
+        core::types::u8* g_data = &g_buffer_[0];
+        core::types::u8* r_data = &r_buffer_[0];
+        core::types::u8* d_data = &dest_cbuf[0];
 
         __m128i zero_batch = _mm_set1_epi8(0);
 
-        for(std::size_t i = dw * dh; i; i -= 16) {
+        for(core::types::ptr_size i = dw * dh; i; i -= 16) {
             auto bd = _mm_loadu_si128(reinterpret_cast<__m128i*>(b_data));
             auto gd = _mm_loadu_si128(reinterpret_cast<__m128i*>(g_data));
             auto rd = _mm_loadu_si128(reinterpret_cast<__m128i*>(r_data));
@@ -65,11 +65,11 @@ namespace core::render {
         }
     }
 
-    std::uint16_t SOASpriteRGB::width() const {
+    core::types::u16 SOASpriteRGB::width() const {
         return width_;
     }
 
-    std::uint16_t SOASpriteRGB::height() const {
+    core::types::u16 SOASpriteRGB::height() const {
         return height_;
     }
 }

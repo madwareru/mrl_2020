@@ -2,8 +2,7 @@
 #include <fstream>
 #include <memory>
 #include <emmintrin.h>
-#include <cstdint>
-#include <cstddef>
+#include <core/types.h>
 #include <core/render/soa_sprite_rgb.h>
 #include <core/windowing/window.h>
 
@@ -183,10 +182,10 @@ namespace core::windowing {
         DEFER([&](){ glDeleteBuffers(1, &PBO); })
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER, PBO);
         glBufferData(GL_PIXEL_UNPACK_BUFFER, 4 * fbw * fbh, nullptr, GL_STREAM_DRAW);
-        std::uint8_t* ptr = reinterpret_cast<std::uint8_t*>(glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY));
+        core::types::u8* ptr = reinterpret_cast<core::types::u8*>(glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY));
         if(ptr)
         {
-            for(std::size_t s = fbw*fbh; s; --s) {
+            for(core::types::ptr_size s = fbw*fbh; s; --s) {
                 *ptr++ = 0;
                 *ptr++ = 0;
                 *ptr++ = 0;
@@ -241,7 +240,10 @@ namespace core::windowing {
 
         core::render::SOASpriteRGB background_sprite{window_params.framebuffer_size.width, window_params.framebuffer_size.height};
 
-        (*init)();
+        bool init_is_success = (*init)();
+        if(!init_is_success) {
+            return false;
+        }
 
         while(!glfwWindowShouldClose(glfw_window)) {
             double global_time = glfwGetTime();
@@ -264,7 +266,7 @@ namespace core::windowing {
             glBindTexture(GL_TEXTURE_2D, texture);
             glBindBuffer(GL_PIXEL_UNPACK_BUFFER, PBO);
             glBufferData(GL_PIXEL_UNPACK_BUFFER, 4 * fbw * fbh, nullptr, GL_STREAM_DRAW);
-            std::uint8_t* ptr = reinterpret_cast<std::uint8_t*>(glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY));
+            core::types::u8* ptr = reinterpret_cast<core::types::u8*>(glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY));
             if(ptr)
             {
                 background_sprite.blit_on_opengl_buffer(ptr, fbw, fbh);

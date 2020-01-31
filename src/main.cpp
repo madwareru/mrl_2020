@@ -1,5 +1,4 @@
-#include <cstdint>
-#include <cstddef>
+#include <core/types.h>
 #include <variant>
 #include <memory>
 
@@ -15,18 +14,19 @@
 #include <GLFW/glfw3.h>
 
 namespace {
-    std::shared_ptr<core::render::SOASpriteRGB> grass_sprite;
-    std::shared_ptr<core::render::SOASpriteRGBA> ship_sprite;
-    std::int16_t x_offset;
-    std::int16_t y_offset;
+    std::shared_ptr<core::render::SOASpriteRGBA> atlas_sprite;
+    std::shared_ptr<core::render::SOASpriteRGB> terrain_sprite;
+    core::types::i16 x_offset;
+    core::types::i16 y_offset;
     double acc;
 
-    void global_init() {
-        grass_sprite = core::loaders::load_sprite_from_png_24("grassCenter.png");
-        ship_sprite = core::loaders::load_sprite_from_png_32("playerShip1_green.png");
+    bool global_init() {
+        terrain_sprite = core::loaders::load_sprite_from_png_24("terrain.png");
+        atlas_sprite = core::loaders::load_sprite_from_png_32("atlas.png");
         x_offset = 0;
         y_offset = 0;
         acc = 0.0;
+        return true;
     }
 
     void global_update(double delta_time) {
@@ -40,17 +40,17 @@ namespace {
 
     void global_render(core::render::SOASpriteRGB& back_buffer) {
         back_buffer.lock([](auto w, auto h, auto rb, auto gb, auto bb){
-            for(std::size_t i = 0; i < w * h; ++i) {
+            for(core::types::ptr_size i = 0; i < w * h; ++i) {
                 rb[i] = gb[i] = bb[i] = 0;
 
             }
         });
-        for(std::int32_t j = 0; j < 3; ++j) {
-            for(std::int32_t i = 0; i < 5; ++i) {
-                core::render::blit_sprite(*grass_sprite, back_buffer, i * 70 + x_offset, j * 70 + y_offset);
+        for(core::types::i32 j = 0; j < 15; ++j) {
+            for(core::types::i32 i = 0; i < 15; ++i) {
+                core::render::blit_sprite(*terrain_sprite, back_buffer, i * 32 + x_offset, j * 32 + y_offset, 0, 0, 32, 32);
             }
         }
-        core::render::blit_sprite(*ship_sprite, back_buffer, 80, 80);
+        core::render::blit_sprite(*atlas_sprite, back_buffer, 80, 80, 0, 32, 32, 32);
     }
 
     void key_callback(GLFWwindow* glfw_window, int par0, int par1, int par2, int par3) {

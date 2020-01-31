@@ -1,39 +1,38 @@
 #pragma once
 
-#include <cinttypes>
-#include <cstddef>
+#include <core/types.h>
 
 namespace core::render {
     struct StandartBlit;
 
     struct SOASpriteRGB {
-        SOASpriteRGB(std::uint16_t w, std::uint16_t h);
+        SOASpriteRGB(core::types::u16 w, core::types::u16 h);
         SOASpriteRGB(const SOASpriteRGB& other) = delete;
         SOASpriteRGB& operator=(const SOASpriteRGB&) = delete;
         SOASpriteRGB(SOASpriteRGB&& other) = delete;
         SOASpriteRGB& operator=(SOASpriteRGB&&) = delete;
         ~SOASpriteRGB();
         
-        void blit_on_opengl_buffer(std::uint8_t* buf, std::uint16_t buf_width, std::uint16_t buf_height);
+        void blit_on_opengl_buffer(core::types::u8* buf, core::types::u16 buf_width, core::types::u16 buf_height);
 
         template<typename FF>
         void lock(FF&& predicate) {
             predicate(width_, height_, r_buffer_, g_buffer_, b_buffer_);
         }
 
-        std::uint16_t width() const;
-        std::uint16_t height() const;
+        core::types::u16 width() const;
+        core::types::u16 height() const;
     private:
-        std::uint16_t width_;
-        std::uint16_t height_;
+        core::types::u16 width_;
+        core::types::u16 height_;
 
-        std::uint8_t* r_buffer_raw_;
-        std::uint8_t* g_buffer_raw_;
-        std::uint8_t* b_buffer_raw_;
+        core::types::u8* r_buffer_raw_;
+        core::types::u8* g_buffer_raw_;
+        core::types::u8* b_buffer_raw_;
 
-        std::uint8_t* r_buffer_;
-        std::uint8_t* g_buffer_;
-        std::uint8_t* b_buffer_;
+        core::types::u8* r_buffer_;
+        core::types::u8* g_buffer_;
+        core::types::u8* b_buffer_;
     };
 
     template<typename BlitPolicy = StandartBlit>
@@ -41,25 +40,25 @@ namespace core::render {
         SOASpriteRGB& src,
         SOASpriteRGB& dest, 
         std::int16_t dx, std::int16_t dy, 
-        std::uint16_t sx, std::uint16_t sy, 
-        std::uint16_t w, std::uint16_t h
+        core::types::u16 sx, core::types::u16 sy, 
+        core::types::u16 w, core::types::u16 h
     ) {
         if(dx < 0) {
-            if(static_cast<std::uint16_t>(-dx) >= w) return;
+            if(static_cast<core::types::u16>(-dx) >= w) return;
             sx -= dx;
             w += dx;
             dx = 0;
         }
         if(dy < 0) {
-            if(static_cast<std::uint16_t>(-dy) >= h) return;
+            if(static_cast<core::types::u16>(-dy) >= h) return;
             sy -= dy;
             h += dy;
             dy = 0;
         }
-        if(static_cast<std::uint16_t>(dx) >= dest.width() || static_cast<std::uint16_t>(dy) >= dest.height()) {
+        if(static_cast<core::types::u16>(dx) >= dest.width() || static_cast<core::types::u16>(dy) >= dest.height()) {
             return;
         }
-        BlitPolicy::blit(src, dest, static_cast<std::uint16_t>(dx), static_cast<std::uint16_t>(dy), sx, sy, w, h);
+        BlitPolicy::blit(src, dest, static_cast<core::types::u16>(dx), static_cast<core::types::u16>(dy), sx, sy, w, h);
     }
 
     template<typename BlitPolicy = StandartBlit>
