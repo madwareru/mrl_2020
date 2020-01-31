@@ -236,7 +236,7 @@ namespace core::windowing {
 
         double prev_time = glfwGetTime();
         double last_frame_gtime = glfwGetTime();
-        std::int32_t fps = 0;
+        core::types::i32 fps = 0;
 
         core::render::SOASpriteRGB background_sprite{window_params.framebuffer_size.width, window_params.framebuffer_size.height};
 

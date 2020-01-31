@@ -39,7 +39,7 @@ namespace core::render {
     void blit_sprite(
         SOASpriteRGB& src,
         SOASpriteRGB& dest, 
-        std::int16_t dx, std::int16_t dy, 
+        core::types::i16 dx, core::types::i16 dy, 
         core::types::u16 sx, core::types::u16 sy, 
         core::types::u16 w, core::types::u16 h
     ) {
@@ -62,7 +62,7 @@ namespace core::render {
     }
 
     template<typename BlitPolicy = StandartBlit>
-    inline void blit_sprite(SOASpriteRGB& src,SOASpriteRGB& dest, std::int16_t x, std::int16_t y) {
+    inline void blit_sprite(SOASpriteRGB& src,SOASpriteRGB& dest, core::types::i16 x, core::types::i16 y) {
         blit_sprite<BlitPolicy>(src, dest, x, y, 0, 0, src.width(), src.height());
     }
 }
