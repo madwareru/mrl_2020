@@ -18,4 +18,9 @@ namespace core::types {
     using f64 = double;
 
     using ptr_size = std::size_t;
+    
+    struct vec2f {
+        core::types::f32 x;
+        core::types::f32 y;
+    };
 }
