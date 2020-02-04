@@ -3,14 +3,14 @@
 #include <util/macro_shared.h>
 
 namespace {
-    core::types::vec2f noise_hash(const core::types::vec2f& x, const core::types::vec2f& seed_xy) {
+    core::types::vec2f noise_hash(core::types::vec2f x, const core::types::vec2f& seed_xy) {
         const auto k = core::types::vec2f{ 0.3183099f, 0.3678794f };
         core::types::vec2f result;
         x = core::math::vsum(seed_xy, x);
         x.x = x.x * k.x + k.y;
         x.y = x.y * k.y + k.x;
         float a = core::math::fract(x.x * x.y * (x.x + x.y));
-        result = core::math::vmul(2.0f, core::math::vfract(core::math::vmul(a * 16.0f, k)));
+        result = core::math::vmul(2.0f, core::math::fract(core::math::vmul(a * 16.0f, k)));
         result.x -= 1.0f;
         result.y -= 1.0f;
         return result;
@@ -18,16 +18,15 @@ namespace {
 }
 
 namespace core::noise {
-
-    core::types::float noise(
+    core::types::f32 noise(
         const core::types::vec2f& p, 
         const core::types::vec2f& seed_xy
     ){
-        auto i = floor(p);
-        auto f = fract(p);
+        auto i = core::math::floor(p);
+        auto f = core::math::fract(p);
         const auto z = core::types::vec2f{ 3.0f, 3.0f };
         auto u = core::math::vmul(
-            core::math::vdiff(z, core::math::vmul2(2.0f, f)), 
+            core::math::vdiff(z, core::math::vmul(2.0f, f)), 
             core::math::vmul(f, f)
         );
         LOG_ASSERT(u.x >= 0.0f && u.x <= 1.0f);
@@ -43,14 +42,14 @@ namespace core::noise {
                 u.x
             ),
             core::math::mix(
-                core::math::dot( noise_hash(vsum(i, bl), seed_xy), core::math::vdiff(f, bl)),
-                core::math::dot( noise_hash(vsum(i, br), seed_xy), core::math::vdiff(f, br)),
+                core::math::dot( noise_hash(core::math::vsum(i, bl), seed_xy), core::math::vdiff(f, bl)),
+                core::math::dot( noise_hash(core::math::vsum(i, br), seed_xy), core::math::vdiff(f, br)),
                 u.x
             ),
             u.y
         );
     }
-    core::types::float fbm_noise(
+    core::types::f32 fbm_noise(
         const core::types::vec2f& p, 
         const core::types::vec2f& seed_xy, 
         core::types::u32 octaves    
@@ -58,7 +57,7 @@ namespace core::noise {
         core::types::vec2f p_acc = p;
         const core::types::f32 s = 1.98f;
         const core::types::f32 w = 0.49f;
-        const core::types::f32 b = 0.5f;
+        core::types::f32 b = 0.5f;
         core::types::f32 r = 0.0f;
         for(core::types::u32 i = octaves; i; --i) {
             r += b * noise(p_acc, seed_xy);
